@@ -7,7 +7,8 @@ describe('AuthController', function () {
     authController.setRoles(['user']);
   });
 
-  describe.only('isAuthorized', function () {
+  // describe.only(..) will run just one test suite
+  describe('isAuthorized', function () {
     it('should return false if not authorized', function () {
       assert.strictEqual(false, authController.isAuthorized('admin'));
     });
@@ -21,6 +22,7 @@ describe('AuthController', function () {
     it('should allow get if authorized');
   });
 
+  // describe.skip(..) will skip a test suite when certain test cases break
   describe('isAuthorizedAsync', function () {
     it('Should return false if not authorized', function (done) {
       this.timeout(2500);
