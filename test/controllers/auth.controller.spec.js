@@ -4,6 +4,7 @@ var chai = require('chai');
 var expect = require('chai').expect;
 var should = require('chai').should();
 var chaiAsPromised = require('chai-as-promised');
+var sinon = require('sinon');
 chai.use(chaiAsPromised);
 chai.should();
 
@@ -54,11 +55,24 @@ describe('AuthController', function () {
   describe('isAuthorizedPromise', function () {
     it('Should return false if not authorized', function () {
       /**
-       * this.timeout(2500); the .eventually in chain automatically
+       * the .eventually in chain automatically
        * handles the promise and waits without us doing some sort
        * of `this.timeout(234)` or passing done and calling it done();
        */
+      this.timeout(2500);
       return authController.isAuthorizedPromise('admin').should.eventually.be.false;
+    });
+  });
+
+  describe.only('getIndex', function () {
+    it('should render index', function () {
+      var req = {};
+      var res = {
+        render: sinon.spy()
+      };
+      authController.getIndex(req, res);
+      res.render.calledOnce.should.be.true;
+      res.render.firstCall.args[0].should.equal('index');
     });
   });
 });
