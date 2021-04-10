@@ -29,10 +29,14 @@ function AuthController() {
   }
 
   function getIndex(req, res) {
-    if (req.user.isAuthorized('admin')) {
-      res.render('index');
+    try {
+      if (req.user.isAuthorized('admin')) {
+        return res.render('index');
+      }
+      res.render('notAuth');
+    } catch (error) {
+      res.render('error');
     }
-    res.render('error');
   }
 
   return {

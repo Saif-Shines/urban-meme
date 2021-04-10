@@ -90,7 +90,7 @@ describe('AuthController', function () {
     });
 
     it.only('should render index', function () {
-      var isAuth = sinon.stub(user, 'isAuthorized').returns(true);
+      var isAuth = sinon.stub(user, 'isAuthorized').throws();
       var req = { user };
       var res = {
         render: sinon.spy()
@@ -99,7 +99,7 @@ describe('AuthController', function () {
       authController.getIndex(req, res);
       isAuth.calledOnce.should.be.true;
       res.render.calledOnce.should.be.true;
-      res.render.firstCall.args[0].should.equal('index');
+      res.render.firstCall.args[0].should.equal('error');
     });
   });
 });
