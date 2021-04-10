@@ -29,7 +29,7 @@ describe('AuthController', function () {
       authController.setUser(user);
     });
 
-    it.only('should return false if not authorized', function () {
+    it('should return false if not authorized', function () {
       var isAuth = authController.isAuthorized('admin');
       console.log(user.isAuthorized);
       user.isAuthorized.calledOnce.should.be.true;
@@ -79,12 +79,25 @@ describe('AuthController', function () {
   });
 
   describe('getIndex', function () {
-    it('should render index', function () {
-      var req = {};
+    var user = {};
+    beforeEach(function () {
+      user = {
+        roles: ['user'],
+        isAuthorized: function (neededRole) {
+          return this.roles.indexOf(neededRole) >= 0;
+        }
+      };
+    });
+
+    it.only('should render index', function () {
+      var isAuth = sinon.stub(user, 'isAuthorized').returns(true);
+      var req = { user };
       var res = {
         render: sinon.spy()
       };
+
       authController.getIndex(req, res);
+      isAuth.calledOnce.should.be.true;
       res.render.calledOnce.should.be.true;
       res.render.firstCall.args[0].should.equal('index');
     });
