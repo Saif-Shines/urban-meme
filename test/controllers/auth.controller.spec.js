@@ -7,7 +7,7 @@ describe('AuthController', function () {
     authController.setRoles(['user']);
   });
 
-  describe('isAuthorized', function () {
+  describe.only('isAuthorized', function () {
     it('should return false if not authorized', function () {
       assert.strictEqual(false, authController.isAuthorized('admin'));
     });
