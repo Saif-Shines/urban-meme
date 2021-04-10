@@ -13,7 +13,16 @@ function AuthController() {
       cb(roles.indexOf(neededRole) >= 0);
     }, 2100);
   }
-  return { isAuthorized, isAuthorizedAsync, setRoles };
+
+  function isAuthorizedPromise(neededRole) {
+    return new Promise(function (resolve) {
+      setTimeout(function () {
+        resolve(roles.indexOf(neededRole) >= 0);
+      }, 2100);
+    });
+  }
+
+  return { isAuthorized, isAuthorizedAsync, setRoles, isAuthorizedPromise };
 }
 
 module.exports = AuthController();

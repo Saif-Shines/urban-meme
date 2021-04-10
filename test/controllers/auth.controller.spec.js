@@ -1,7 +1,11 @@
 var assert = require('assert');
 var authController = require('../../controllers/auth.controller');
+var chai = require('chai');
 var expect = require('chai').expect;
 var should = require('chai').should();
+var chaiAsPromised = require('chai-as-promised');
+chai.use(chaiAsPromised);
+chai.should();
 
 describe('AuthController', function () {
   beforeEach(function settingUpRoles() {
@@ -44,6 +48,17 @@ describe('AuthController', function () {
         assert.strictEqual(true, isAuth);
         done();
       });
+    });
+  });
+
+  describe('isAuthorizedPromise', function () {
+    it('Should return false if not authorized', function () {
+      /**
+       * this.timeout(2500); the .eventually in chain automatically
+       * handles the promise and waits without us doing some sort
+       * of `this.timeout(234)` or passing done and calling it done();
+       */
+      return authController.isAuthorizedPromise('admin').should.eventually.be.false;
     });
   });
 });
