@@ -1,9 +1,17 @@
 var assert = require('assert');
+var should = require('chai').should();
 
 describe('Basic Mocha Tests', function () {
   it('should deal with objects', function () {
-    var object = { name: 'Jon', gender: 'male' };
+    var obj = { name: 'Jon', gender: 'male' };
+    var objB = { name: 'Jon', gender: 'male' };
 
-    obj.should.have.property('name');
+    obj.should.deep.equal(objB);
+  });
+
+  it('should allow testing nulls', function () {
+    var iAmNull = null;
+    // iAmNull.should.not.exist; - Faulty.
+    should.not.exist(iAmNull);
   });
 });
