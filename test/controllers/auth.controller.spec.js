@@ -16,15 +16,29 @@ describe('AuthController', function () {
 
   // describe.only(..) will run just one test suite
   describe('isAuthorized', function () {
-    it('should return false if not authorized', function () {
-      var isAuth = authController.isAuthorized('admin');
+    var user = {};
 
+    beforeEach(function () {
+      user = {
+        roles: ['user'],
+        isAuthorized: function (neededRole) {
+          return this.roles.indexOf(neededRole) >= 0;
+        }
+      };
+      sinon.spy(user, 'isAuthorized');
+      authController.setUser(user);
+    });
+
+    it.only('should return false if not authorized', function () {
+      var isAuth = authController.isAuthorized('admin');
+      console.log(user.isAuthorized);
+      user.isAuthorized.calledOnce.should.be.true;
       expect(isAuth).to.be.false;
     });
 
     it('should return true if authorized', function () {
       authController.setRoles(['user', 'admin']);
-      let isAuth = authController.isAuthorized('admin');
+      let isAuth = authController.isAuthorized('user');
       isAuth.should.be.true;
     });
 
@@ -64,7 +78,7 @@ describe('AuthController', function () {
     });
   });
 
-  describe.only('getIndex', function () {
+  describe('getIndex', function () {
     it('should render index', function () {
       var req = {};
       var res = {

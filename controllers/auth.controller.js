@@ -1,11 +1,17 @@
 function AuthController() {
   var roles;
+  var user;
   function setRoles(role) {
     roles = role;
   }
+  function setUser(inUser) {
+    user = inUser;
+  }
 
   function isAuthorized(neededRole) {
-    return roles.indexOf(neededRole) >= 0;
+    if (user) {
+      return user.isAuthorized(neededRole);
+    }
   }
 
   function isAuthorizedAsync(neededRole, cb) {
@@ -31,7 +37,8 @@ function AuthController() {
     isAuthorizedAsync,
     setRoles,
     isAuthorizedPromise,
-    getIndex
+    getIndex,
+    setUser
   };
 }
 
