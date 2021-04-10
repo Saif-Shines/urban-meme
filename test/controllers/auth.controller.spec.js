@@ -11,4 +11,22 @@ describe('AuthController', function () {
       assert.strictEqual(true, authController.isAuthorized(['user', 'admin'], 'admin'));
     });
   });
+
+  describe('isAuthorizedAsync', function () {
+    it('Should return false if not authorized', function (done) {
+      this.timeout(2500);
+      authController.isAuthorizedAsync(['admin'], 'user', function (isAuth) {
+        assert.strictEqual(false, isAuth);
+        done();
+      });
+    });
+
+    it('Should return true if authorized', function (done) {
+      this.timeout(2500);
+      authController.isAuthorizedAsync(['admin', 'user'], 'user', function (isAuth) {
+        assert.strictEqual(true, isAuth);
+        done();
+      });
+    });
+  });
 });
