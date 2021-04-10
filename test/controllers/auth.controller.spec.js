@@ -1,7 +1,7 @@
 var assert = require('assert');
 var authController = require('../../controllers/auth.controller');
 var expect = require('chai').expect;
-var should = require('chai').should();
+let should = require('chai').should();
 
 describe('AuthController', function () {
   beforeEach(function settingUpRoles() {
